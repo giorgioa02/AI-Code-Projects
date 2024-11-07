@@ -38,7 +38,7 @@ class Environment:
 
 
 	def __init__(self):
-		self.total_numbers = 9
+		self.total_numbers = 12
 		self.prob_dist = {i:0 for i in range(2, 12 + 1)}
 		for i in range(1, 6 + 1):
 			for j in range(1, 6 + 1):
@@ -140,20 +140,15 @@ class Agent:
 				best_action = action
 		return best_action
 
-if __name__=='__main__':
-	env = Environment()
-	# Try the following commands before coding
-	#print(env.available_actions(State([1,2,3,4,5,6,7,8,9], 12)))
-	#print(env.all_transition_next([1,2,3,4,5,6,7,8,9], [1,2]))
+if __name__ == '__main__':
+    env = Environment()
+    agent = Agent(env)
+    agent.value_iteration()
+    initial_numbers = list(range(1, 13))  # Numbers 1 through 10 in the initial state
 
-	agent = Agent(env)
-	# Q1: Complete the Value iteration code here!
-	agent.value_iteration()
-	print('Utility of [1,2,3,4,5,6,7,8,9], 12: %.3f' % agent.utilities[State([1,2,3,4,5,6,7,8,9], 12)])
-	print('Utility of [1,3,4,5,6,7,8,9], 12: %.3f' % agent.utilities[State([1,3,4,5,6,7,8,9], 12)])
-	print('Utility of [1,3,5,6,7,8,9], 12: %.3f' % agent.utilities[State([1,3,5,6,7,8,9], 12)])
-	
-	# Q2: Complete policy function and run the code here!
-	print('Optimal action of [1,2,3,4,5,6,7,8,9], 12: %s' % str(agent.policy(State([1,2,3,4,5,6,7,8,9], 12))))
-	print('Optimal action of [1,3,4,5,6,7,8,9], 12: %s' % str(agent.policy(State([1,3,4,5,6,7,8,9], 12))))
-	print('Optimal action of [1,3,5,6,7,8,9], 12: %s' % str(agent.policy(State([1,3,5,6,7,8,9], 12))))
+    for dice_summation in range(2, 13):
+        initial_state = State(initial_numbers, dice_summation)
+        best_action = agent.policy(initial_state)
+        utility = agent.utilities[initial_state]
+        
+        print(f"Summation: {dice_summation}, Best Action: {best_action}, Utility: {utility:.3f}")
